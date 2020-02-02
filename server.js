@@ -10,6 +10,10 @@ app.use(router) //defino que router hara veces de .use
 app.listen(3000) //defino el puerto por el qu escucho peticiones
 
 router.get('/message', function(req, res) {
+  console.log(req.headers)
+  res.header({
+    "custom-header": "Nuestro Valor Persoonalizado"
+  })
   res.send('Lista de mensajes')
 })
 
