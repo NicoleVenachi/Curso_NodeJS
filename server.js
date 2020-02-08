@@ -6,7 +6,7 @@ var app = express () //instacio  modulo express
 
 app.use(express.json()) //defino un doy parser de JSON
 app.use(express.urlencoded({extended: false})) //parser de url
-// app.use(router) //En caso de que router fuera e network.js de algun componente
+
 router(app)
 
 app.use('/app', express.static('public'))

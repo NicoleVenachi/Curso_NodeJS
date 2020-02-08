@@ -1,23 +1,30 @@
 const express = require('express')
 const router = express.Router()
 
+const controller = require('./controller.js')
 const response = require('../../network/response.js')
 
 router.get('/', function(req, res) {
-  console.log(req.headers)
-  res.header({
-    "custom-header": "Nuestro Valor Persoonalizado"
-  })
-  response.success(req,res, 'Lista de mensajes')
+  controller.getMessages()
+    .then((messageList) => {
+      response.success(req, res, messageList, 200)
+    })
+    .catch(e => {
+      response.error(req,res,'Unexpected Error', 500, e)
+    })
 })
 
-router.post('/', function(req, res) { // ya no necesito / message, la nomenclatura la da el servidor de rutas
-  if (req.query.error == 'ok') {
-    response.error(req, res, 'Error inesperado', 500, 'Es solo unna simulación de errores')
-    return // el código no continúa si encuentra el error
-  } // Simulación de error, si hay un error en el query, llama a .error
-  else {}
-  response.success(req, res, 'Creado correctamente', 201)
+router.post('/', function(req, res) {
+  controller.addMessage(req.body.user, req.body.message)
+    .then((createdMessage) => {
+      console.log(createdMessage)
+      response.success(req, res, createdMessage, 201)
+    })
+    .catch(err => {
+        response.error(req, res, err, 400, 'Error en el controlador')
+    })
+   //en el post, posteo mensaje
+
 })
 
  module.exports = router
