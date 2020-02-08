@@ -11,7 +11,7 @@ function addMessage(user, message) { //quien la añado y mensaje
     //resolve
     const fullMessage = {
       user: user,
-      messsage: message,
+      message: message,
       date: new Date(),
     }
     store.add(fullMessage)
